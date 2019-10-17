@@ -4,8 +4,6 @@ from fnmatch import fnmatch
 import numpy as np
 import cv2
 import math
-from fnmatch import fnmatch
-import sys
 
 def coord(x,y):
     "Convert world coordinates to pixel coordinates."
@@ -82,31 +80,25 @@ def showImage(path, destPath, x_cor, y_cor, radius):
     key = cv2.waitKey(0)
     if key == 27:
         cv2.destroyAllWindows()         # It's escape button to exit
-        sys.exit()
-    if key == 102 or key == 70:         # It's J button
-        print(path + "dismissed")
+        exit()
+    if key == 102 or key == 70:         # It's J button to skip
+        print(path + " dismissed")
         file1 = open(destPath,"a")
         file1.write(path + "\n") 
         file1.close() 
         cv2.destroyAllWindows()
-    if key == 106 or key == 74:         # It's F button
-        print(path + "added successfully")
+    if key == 106 or key == 74:         # It's F button to save
+        print(path + " added successfully")
         cv2.destroyAllWindows()
 
     cv2.destroyAllWindows()
-
                 
 # print("Enter the directory: ")
 # p = raw_input() 
 
-
-
-path = "/home/n1m4/Desktop/tasks/test"
-destPath = "/home/n1m4/Desktop/tasks/test/file.txt"
-shouldShowFieldState = False
-
-
-
+path = "/home/user/Desktop/tasks/test"
+destPath = "/home/user/Desktop/tasks/test/file.txt"
+shouldShowFieldState = True
 
 getData(path, shouldShowFieldState)
 
