@@ -16,26 +16,40 @@ def getData(root, shouldShowField):
         for name in files:
             if fnmatch(name, "*.json"):
                 pathJson = os.path.join(path, name)
-                fh = open(pathJson)
-                data = json.load(fh)
-                detected = data["Ball"]["detected"]
-                if detected == "1":
-                    with open(pathJson) as json_file:
-                        data = json.load(json_file)
-                        x_corBall = int(data["Ball"]["x"])
-                        y_corBall = int(data["Ball"]["y"])
-                        radius = int(data["Ball"]["r"])
-                        x_corRobotPose = float(data["RobotPose"]["x"])
-                        y_corRobotPose = float(data["RobotPose"]["y"])
-                        angleRobotPose = float(data["RobotPose"]["angle"])
-                        # print(x_corBall, y_corBall, radius)
-                        # print(x_corRobotPose, y_corRobotPose, angleRobotPose)
-                        # print(jsonToJPG(os.path.join(path, name)))
-                        jpgFiles = (jsonToJPG(os.path.join(path, name)))
-                        showImage(jpgFiles,destPath, x_corBall, y_corBall, radius)
-                        key = cv2.waitKey(0)
-                        if shouldShowField is True:
-                            drawField(x_corRobotPose,y_corRobotPose,angleRobotPose) 
+                jsonSize = os.path.getsize(pathJson)
+                if jsonSize > 0:
+                    fh = open(pathJson)
+                    data = json.load(fh)
+                    detected = data["Ball"]["detected"]
+                    if detected == "1":
+                        with open(pathJson) as json_file:
+                            data = json.load(json_file)
+                            x_corBall = int(data["Ball"]["x"])
+                            y_corBall = int(data["Ball"]["y"])
+                            radius = int(data["Ball"]["r"])
+                            x_corRobotPose = float(data["RobotPose"]["x"])
+                            y_corRobotPose = float(data["RobotPose"]["y"])
+                            angleRobotPose = float(data["RobotPose"]["angle"])
+
+                            jpgFiles = (jsonToJPG(os.path.join(path, name)))
+                            showImage(jpgFiles,destPath, x_corBall, y_corBall, radius)
+                            key = cv2.waitKey(0)
+                            if shouldShowField is True:
+                                drawField(x_corRobotPose,y_corRobotPose,angleRobotPose) 
+                            
+                            # # DEBUG
+                            # print(path + name + " exists")
+                            # print(x_corBall, y_corBall, radius)
+                            # print(x_corRobotPose, y_corRobotPose, angleRobotPose)
+                            # print(jsonToJPG(os.path.join(path, name)))
+                            # jsonSize = os.path.getsize(pathJson)
+                            # print("Size of json is : " + str(jsonSize))
+                            # print("Size of image is : " + str(FileSize))
+                            # fileExistsBool = os.path.isfile(jsonToJPG(os.path.join(path, name)))
+                            # FileSize = os.path.getsize(jsonToJPG(os.path.join(path, name)))
+                            # # DEBUG
+
+
                         
 def drawField(x_corRobotPose,y_corRobotPose,angleRobotPose):
     greenField = np.full((600, 900, 3), 127, np.uint8) 
@@ -81,14 +95,14 @@ def showImage(path, destPath, x_cor, y_cor, radius):
     if key == 27:
         cv2.destroyAllWindows()         # It's escape button to exit
         exit()
-    if key == 102 or key == 70:         # It's J button to skip
-        print(path + " dismissed")
+    if key == 102 or key == 70:         # It's F button to save
+        print(path + " added succressfully")
         file1 = open(destPath,"a")
         file1.write(path + "\n") 
         file1.close() 
         cv2.destroyAllWindows()
-    if key == 106 or key == 74:         # It's F button to save
-        print(path + " added successfully")
+    if key == 106 or key == 74:         # It's J button to skip
+        print(path + " dismissed")
         cv2.destroyAllWindows()
 
     cv2.destroyAllWindows()
@@ -96,9 +110,14 @@ def showImage(path, destPath, x_cor, y_cor, radius):
 # print("Enter the directory: ")
 # p = raw_input() 
 
-path = "/home/user/Desktop/tasks/test"
-destPath = "/home/user/Desktop/tasks/test/file.txt"
-shouldShowFieldState = True
+# path = "/media/n1m4/New Volume/Arshia/Logs-2019-RoboCup/Amir/2019-09-26-02-40"
+path = "/media/n1m4/New Volume/Arshia/Logs-2019-RoboCup/Amir/"
+destPath = (path + "file.txt")
+
+# if not os.path.exists(destPath):
+#     os.makedirs(destPath)
+
+shouldShowFieldState = False
 
 getData(path, shouldShowFieldState)
 
