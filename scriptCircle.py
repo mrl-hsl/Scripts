@@ -17,7 +17,7 @@ def getData(root, shouldShowField):
             if fnmatch(name, "*.json"):
                 pathJson = os.path.join(path, name)
                 jsonSize = os.path.getsize(pathJson)
-                if jsonSize > 0:
+                if jsonSize > 0 and jsonSize < 300:
                     fh = open(pathJson)
                     data = json.load(fh)
                     detected = data["Ball"]["detected"]
@@ -110,12 +110,9 @@ def showImage(path, destPath, x_cor, y_cor, radius):
 # print("Enter the directory: ")
 # p = raw_input() 
 
-# path = "/media/n1m4/New Volume/Arshia/Logs-2019-RoboCup/Amir/2019-09-26-02-40"
-path = "/media/n1m4/New Volume/Arshia/Logs-2019-RoboCup/Amir/"
-destPath = (path + "file.txt")
+path = "/Address/"
 
-# if not os.path.exists(destPath):
-#     os.makedirs(destPath)
+destPath = (path + "file.txt")
 
 shouldShowFieldState = False
 
