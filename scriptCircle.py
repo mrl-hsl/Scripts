@@ -5,6 +5,8 @@ import numpy as np
 import cv2
 import math
 
+destPath = "/media/rider/New Volume/Arshia/Logs-2019-RoboCup/Amir/2019-06-01-13-22/file.txt"
+
 def coord(x, y):
     """Convert world coordinates to pixel coordinates."""
     return int(450 + 170 * x), int(300 - 170 * y)
@@ -38,10 +40,10 @@ def jsonToJPG(path):
 def showImage(path, destPath, x_cor, y_cor, radius, ballDetected):
     img = cv2.imread(path)
     if ballDetected:
-        center_coordinates = (x_cor * 2, y_cor * 2)
+        center_coordinates = (int(x_cor * 2), int(y_cor * 2))
         color = (0, 0, 255)
         thickness = 2
-        cv2.circle(img, center_coordinates, radius * 2, color, thickness)
+        cv2.circle(img, center_coordinates, int(radius * 2), color, thickness)
     cv2.imshow(path, img)
     key = cv2.waitKey(0)
 
@@ -84,7 +86,6 @@ def getData(root, shouldShowField):
                             drawField(x_corRobotPose, y_corRobotPose, angleRobotPose)
 
 path = "/media/rider/New Volume/Arshia/Logs-2019-RoboCup/Amir/2019-06-01-13-22"
-destPath = (path + "file.txt")
 shouldShowFieldState = False
 
 getData(path, shouldShowFieldState)
